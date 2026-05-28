@@ -28,6 +28,10 @@ resource "google_compute_instance" "web" {
     systemctl enable --now httpd
     printf '%s\n' 'Demo system 1' > /var/www/html/index.html
   EOT
+
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 # resource "google_compute_instance" "web_2" {
@@ -60,6 +64,10 @@ resource "google_compute_instance" "web" {
 #     systemctl enable --now httpd
 #     printf '%s\n' 'Demo system 2' > /var/www/html/index.html
 #   EOT
+#
+#   depends_on = [
+#     google_project_service.compute
+#   ]
 # }
 #
 output "project_number" {

@@ -5,6 +5,10 @@ data "google_project" "current" {
 resource "google_compute_network" "main" {
   name                    = var.network_name
   auto_create_subnetworks = false
+
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_subnetwork" "main" {
@@ -12,6 +16,10 @@ resource "google_compute_subnetwork" "main" {
   ip_cidr_range = var.subnet_cidr
   network       = google_compute_network.main.id
   region        = var.region
+
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_firewall" "ssh" {
@@ -25,6 +33,10 @@ resource "google_compute_firewall" "ssh" {
 
   source_ranges = var.allowed_ssh_cidrs
   target_tags   = ["devops-2026-web"]
+
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_firewall" "http" {
@@ -38,4 +50,8 @@ resource "google_compute_firewall" "http" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["devops-2026-web"]
+
+  depends_on = [
+    google_project_service.compute
+  ]
 }
