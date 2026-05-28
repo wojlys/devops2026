@@ -31,9 +31,9 @@ jobs:
           directory: ${{ vars.TF_DIRECTORY }}
           speculative: false
 
-      - name: Create HCP Terraform plan-only run
+      - name: Create HCP Terraform run
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.2
         with:
           workspace: ${{ vars.TF_WORKSPACE }}
           configuration_version: ${{ steps.upload.outputs.configuration_version_id }}
-          plan_only: true
+          plan_only: false
