@@ -1,3 +1,5 @@
+# change
+
 resource "google_compute_instance" "web" {
   name         = var.machine_name
   machine_type = var.machine_type
