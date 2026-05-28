@@ -1,0 +1,45 @@
+name: devops-2026-demo
+
+defaults:
+  run:
+    working-directory: "."
+
+env:
+  TF_CLOUD_ORGANIZATION: ${{ vars.TF_CLOUD_ORGANIZATION }}
+  TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+  TF_WORKSPACE: ${{ vars.TF_WORKSPACE }}
+  TF_DIRECTORY: ${{ vars.TF_DIRECTORY }}
+  TF_IN_AUTOMATION: "true"
+
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/demo.yml"
+      - "**.tf"
+      - "**.tfvars"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/demo.yml"
+      - "**.tf"
+      - "**.tfvars"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-slim
+    steps:
+      - name: TF code checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare TF environment
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialize the TF
+        run: terraform init
+
+      - name: Plan operations
+        run: terraform plan
